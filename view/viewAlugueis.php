@@ -156,12 +156,14 @@ $("#btnLogoff").click(function(){
 
 $("#btnSair").click(function(){
     $.ajax({
-        url: '<?= $path; ?>controller/controllerUsuario.php',
+        url: '<?= $path; ?>sair',
         type: 'post',
-        data: {'action':'logoff'},
+        data: null,
         success: function(data) {
-            if(data){
+            if(data === ""){
                 document.location.href = "/aluguel_carros/"
+            }else{
+                $("#modalLogoff").modal('hide');
             }
         }
     });

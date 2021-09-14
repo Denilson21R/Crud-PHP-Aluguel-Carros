@@ -1,5 +1,11 @@
 body{
-    background: rgb(112,108,184);
-    background: linear-gradient(90deg, rgba(112,108,184,1) 0%, rgba(100,100,171,1) 50%, rgba(62,172,194,1) 100%);
+    background: rgb(152,148,227);
+    background: linear-gradient(90deg, rgba(152,148,227,1) 0%, rgb(210, 210, 218) 50%, rgba(126,208,186,1) 100%);
     height: 100vh;
+}
+
+.btn-principal{
+    color: #fff;
+    background-color: #337ab9;
+    border-color: #6993b8;
 }

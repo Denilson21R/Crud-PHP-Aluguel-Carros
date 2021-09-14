@@ -14,8 +14,8 @@ $path = $_SESSION["path"];
         <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
 
         <!-- Bootstrap core CSS -->
-	   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="<?php echo $_SESSION["path"]; ?>view/css/home.css" rel="stylesheet">
         <style>
           .bd-placeholder-img {
             font-size: 1.125rem;
@@ -31,12 +31,6 @@ $path = $_SESSION["path"];
               font-size: 3.5rem;
             }
           }
-
-          body{
-            background: rgb(165,164,185);
-background: linear-gradient(90deg, rgba(165,164,185,1) 0%, rgba(150,150,218,1) 50%, rgba(141,178,185,1) 100%);
-            height: 100vh;
-        }
         </style>
         <!-- Custom styles for this template -->
     </head>
@@ -50,7 +44,6 @@ background: linear-gradient(90deg, rgba(165,164,185,1) 0%, rgba(150,150,218,1) 5
                     
                     <form method="post" id="formLogin">
                         <div class="row">
-                            <input type="hidden" name="action" value="login">
                             <div class="col-md-6 mb-3">
                                 <label for="login" style="font-weight: bolder;">Login</label>
                                 <input type="text" class="form-control" name="login" id="login" placeholder="" value="" required>
@@ -61,8 +54,12 @@ background: linear-gradient(90deg, rgba(165,164,185,1) 0%, rgba(150,150,218,1) 5
                             </div>
                         </div>
                         <div class="row">
-                            <button class="btn btn-dark btn-block mb-4" type="submit">Login</button>
-                            <button class="btn btn-primary btn-block mb-4" style="margin-right: 10px;" id="btnNovoUsuario">Cadastrar Novo Usuário</button>
+                            <div class="col-md-12">
+                                <button class="btn btn-principal btn-block mb-4" type="submit">Login</button>    
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-secondary btn-block mb-4" style="margin-right: 10px;" id="btnNovoUsuario">Cadastrar Novo Usuário</button>
+                            </div>
                         </div>                        
                     </form>
                     <form method="post" id="formCadastro" style="display: none;">
@@ -77,8 +74,8 @@ background: linear-gradient(90deg, rgba(165,164,185,1) 0%, rgba(150,150,218,1) 5
                                 <input type="password" class="form-control" name="senha-cadastro" id="senha-cadastro" placeholder="" value="" required>
                             </div>
                         </div>
-                        <button class="btn btn-dark btn-block mb-4" type="submit">Salvar</button>
-                        <button class="btn btn-dark btn-block mb-4" id="btnVoltarCadastro">Voltar</button>
+                        <button class="btn btn-principal btn-block mb-4" type="submit">Salvar</button>
+                        <button class="btn btn-secondary btn-block mb-4" id="btnVoltarCadastro">Voltar</button>
                     </form>
                     <div class="alert alert-dark" role="alert" id="alerta" style="display: none;">
                         Usuário não encontrado!
@@ -86,13 +83,28 @@ background: linear-gradient(90deg, rgba(165,164,185,1) 0%, rgba(150,150,218,1) 5
                     <div class="alert alert-dark" role="alert" id="alerta-cadastro" style="display: none;">
                         Não foi possível realizar o cadastro!
                     </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Cadastro realizado com Sucesso!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" onclick="window.location.reload();">Ok</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
 </html>
 <script type="text/javascript">
@@ -100,11 +112,12 @@ background: linear-gradient(90deg, rgba(165,164,185,1) 0%, rgba(150,150,218,1) 5
 $("#formLogin").submit(function(e){
     e.preventDefault();
 	$.ajax({
-        url: '/aluguel_carros/controller/controllerUsuario.php',
+        url: '<?= $path; ?>login',
         type: 'post',
         data: $(this).serialize(),
         success: function(data) {
-            if(data){
+            console.log(data);
+            if(data === ""){
                 document.location.href = "<?= $path; ?>home/"
             }else{
                 $("#login").val("");
@@ -118,7 +131,6 @@ $("#formLogin").submit(function(e){
                         clearInterval(interval);
                     }
                 }, 1000);
-                
             }
         }
     });
@@ -133,12 +145,13 @@ $("#btnNovoUsuario").click(function(e){
 $("#formCadastro").submit(function(e){
     e.preventDefault();
 	$.ajax({
-        url: '/aluguel_carros/controller/controllerUsuario.php',
+        url: '<?= $path; ?>cadastro',
         type: 'post',
         data: $(this).serialize(),
         success: function(data) {
+            console.log(data);
             if(data == ""){
-                document.location.href = "<?= $path; ?>"
+                $("#exampleModal").modal("show");
             }else{
                 $("#login-cadastro").val("");
                 $("#senha-cadastro").val("");

@@ -7,26 +7,57 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/controller/ControllerVei
 $ControllerVeiculo = new ControllerVeiculo();
 include_once $_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/controller/ControllerAluguel.php";
 $ControllerAluguel = new ControllerAluguel();
+include_once $_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/controller/Controllerusuario.php";
+$ControllerUsuario = new ControllerUsuario();
 
 if(empty($_SESSION["path"])){
     $_SESSION["path"] = $path;
 }
-if($path == "/aluguel_carros/"){
-    include_once($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/view/viewLogin.php");
-}else if($path == "/aluguel_carros/home/"){
-    include_once($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/view/viewAlugueis.php");
-}else if($path == "/aluguel_carros/home/addVeiculo" && !empty($_POST["nomeVeiculo"])){
-    $ControllerVeiculo->addVeiculo();
-}else if($path == "/aluguel_carros/home/excluirVeiculo" && !empty($_POST["id"])){
-    $ControllerVeiculo->excluirVeiculo();
-}else if($path == "/aluguel_carros/home/updateVeiculo" && !empty($_POST["id_veiculo_edit"]) && !empty($_POST["nome_veiculo_edit"])){
-    $ControllerVeiculo->editVeiculo();
-}else if($path == "/aluguel_carros/home/alugarVeiculo" && !empty($_POST["id"])){
-    $ControllerVeiculo->alugarVeiculo();
-    $ControllerAluguel->addAluguel();
-}else if($path == "/aluguel_carros/home/devolverVeiculo" && !empty($_POST["id"])){
-    $ControllerVeiculo->devolveVeiculo();
-    $ControllerAluguel->inativaAluguel();
-}else{
-    include_once($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/view/view404.php");
+
+switch($path){
+    case "/aluguel_carros/":
+        include_once($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/view/viewLogin.php");
+        break;
+    case "/aluguel_carros/home/":
+        include_once($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/view/viewAlugueis.php");
+        break;
+    case "/aluguel_carros/home/addVeiculo":
+        if(!empty($_POST["nomeVeiculo"])){
+            $ControllerVeiculo->addVeiculo();
+        }
+        break;
+    case "/aluguel_carros/home/excluirVeiculo":
+        if(!empty($_POST["id"])){
+            $ControllerVeiculo->excluirVeiculo();
+        }
+        break;
+    case "/aluguel_carros/home/updateVeiculo":
+        if(!empty($_POST["id_veiculo_edit"]) && !empty($_POST["nome_veiculo_edit"])){
+            $ControllerVeiculo->editVeiculo();
+        }
+        break;
+    case "/aluguel_carros/home/alugarVeiculo":
+        if(!empty($_POST["id"])){
+            $ControllerVeiculo->alugarVeiculo();
+            $ControllerAluguel->addAluguel();
+        }
+        break;
+    case "/aluguel_carros/home/devolverVeiculo":
+        if(!empty($_POST["id"])){
+            $ControllerVeiculo->devolveVeiculo();
+            $ControllerAluguel->inativaAluguel();
+        }
+        break;
+    case "/aluguel_carros/login":
+        $ControllerUsuario->Login();
+        break;
+    case "/aluguel_carros/home/sair":
+        $ControllerUsuario->Sair();
+        break;
+    case "/aluguel_carros/cadastro":
+        $ControllerUsuario->Cadastrar();
+        break;
+    default:
+        include_once($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/view/view404.php");
+        break;
 }
