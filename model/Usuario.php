@@ -35,11 +35,14 @@ class Usuario
     }
 
     public function verificaUsuario(){
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $senha = base64_encode($this->senha);
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "SELECT id FROM usuario WHERE login = :login AND senha = :senha";
         $rs = $con->prepare($sql);
         $rs->bindParam(":login", $this->login);
-        $rs->bindParam(":senha", $this->senha);
+        $rs->bindParam(":senha", $senha);
         if($rs->execute()){
             if($rs->rowCount() === 1){
                 while($row = $rs->fetch(PDO::FETCH_OBJ)){
@@ -50,11 +53,14 @@ class Usuario
     }
 
     public function Cadastrar(){
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $senha = base64_encode($this->senha);
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "INSERT INTO usuario (login, senha) VALUES (:login, :senha)";
         $rs = $con->prepare($sql);
         $rs->bindParam(":login", $this->login);
-        $rs->bindParam(":senha", $this->senha);
+        $rs->bindParam(":senha", $senha);
         $rs->execute();
     }
 }

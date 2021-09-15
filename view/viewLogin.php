@@ -116,7 +116,6 @@ $("#formLogin").submit(function(e){
         type: 'post',
         data: $(this).serialize(),
         success: function(data) {
-            console.log(data);
             if(data === ""){
                 document.location.href = "<?= $path; ?>home/"
             }else{
@@ -149,7 +148,6 @@ $("#formCadastro").submit(function(e){
         type: 'post',
         data: $(this).serialize(),
         success: function(data) {
-            console.log(data);
             if(data == ""){
                 $("#exampleModal").modal("show");
             }else{

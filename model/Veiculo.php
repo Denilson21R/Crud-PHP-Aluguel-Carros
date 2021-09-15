@@ -35,7 +35,9 @@ class Veiculo
     }
 
     public static function getVeiculos(){
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "SELECT id, alugado, nome, id_dono, id_usuario as usando FROM veiculo v LEFT JOIN aluguel a ON v.id = a.id_veiculo AND nome is NOT NULL AND a.status = '1' ORDER BY id";
         $rs = $con->prepare($sql);
         if($rs->execute()){
@@ -47,7 +49,9 @@ class Veiculo
 
     public function addVeiculo($veiculo){
         $nome = $veiculo->getNome();
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "INSERT INTO veiculo (nome, alugado, id_dono) VALUES (:nome, 0, :dono)";
         $rs = $con->prepare($sql);
         $rs->bindParam(":nome", $nome);
@@ -56,7 +60,9 @@ class Veiculo
     }
 
     public static function excluirVeiculo(){
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "DELETE FROM veiculo WHERE id = :id";
         $rs = $con->prepare($sql);
         $rs->bindParam(":id", $_POST["id"]);
@@ -64,7 +70,9 @@ class Veiculo
     }
 
     public static function editVeiculo(){
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "UPDATE veiculo SET nome = :nome WHERE id = :id";
         $rs = $con->prepare($sql);
         $rs->bindParam(":id", $_POST["id_veiculo_edit"]);
@@ -73,7 +81,9 @@ class Veiculo
     }
 
     public static function alugarVeiculo(){
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "UPDATE veiculo SET alugado = '1' WHERE id = :id";
         $rs = $con->prepare($sql);
         $rs->bindParam(":id", $_POST["id"]);
@@ -81,7 +91,9 @@ class Veiculo
     }
 
     public static function devolveVeiculo(){
-        $con = new PDO("mysql:host=localhost;dbname=aluguel_carros", "root", "");
+        $ini_array = parse_ini_file($_SERVER["DOCUMENT_ROOT"]."/aluguel_carros/config.php.ini");
+        $str_db = 'mysql:host='.$ini_array["host"].';dbname='.$ini_array["db"];
+        $con = new PDO($str_db, $ini_array["user"], $ini_array["senha"]);
         $sql = "UPDATE veiculo SET alugado = '0' WHERE id = :id";
         $rs = $con->prepare($sql);
         $rs->bindParam(":id", $_POST["id"]);

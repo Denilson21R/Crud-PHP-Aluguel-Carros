@@ -36,7 +36,9 @@ $veiculos = $controllerVeiculo->getVeiculos();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($veiculos as $veiculo){ ?>
+                    <?php 
+                    if(!empty($veiculos)){
+                        foreach($veiculos as $veiculo){ ?>
                     <tr>
                         <td class="text-center"><?= $veiculo["id"] ?></td>
                         <td class="text-center"><?= $veiculo["nome"] ?></td>
@@ -54,7 +56,8 @@ $veiculos = $controllerVeiculo->getVeiculos();
                             <?php } ?>
                         </td>
                     </tr>
-                    <?php } ?>
+                    <?php }
+                    } ?>
                 </tbody>
             </table>
             <!-- Modal Logoff-->
